@@ -16,9 +16,9 @@ out = uitable(...
 	'RowName',[],...
 	'position',[330,510,650,60]);
 
-% многострочный текст в input
+% РјРЅРѕРіРѕСЃС‚СЂРѕС‡РЅС‹Р№ С‚РµРєСЃС‚ РІ input
 set(input,'max',2);
-% начальные данные на ленте (инициализация)
+% РЅР°С‡Р°Р»СЊРЅС‹Рµ РґР°РЅРЅС‹Рµ РЅР° Р»РµРЅС‚Рµ (РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ)
 set(out,'data',zeros(1,100));
 out.ColumnEditable = true;
 
@@ -33,4 +33,3 @@ out.ColumnEditable = true;
 		listarr = mdpi(list, macros_list);
 	end
 end
-
