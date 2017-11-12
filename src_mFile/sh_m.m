@@ -16,20 +16,18 @@ out = uitable(...
 	'RowName',[],...
 	'position',[330,510,650,60]);
 
-% РјРЅРѕРіРѕСЃС‚СЂРѕС‡РЅС‹Р№ С‚РµРєСЃС‚ РІ input
+% многострочный текст в input
 set(input,'max',2);
-% РЅР°С‡Р°Р»СЊРЅС‹Рµ РґР°РЅРЅС‹Рµ РЅР° Р»РµРЅС‚Рµ (РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ)
+% начальные данные на ленте (инициализация)
 set(out,'data',zeros(1,100));
 out.ColumnEditable = true;
 
 % command memory box
-
-
-
 	function start_function (~,~)
 		clearvars -except input;
 		cmb = get(input, 'String');
 		[list, macros_list] = commandlist_creator(cellstr(cmb));
 		listarr = mdpi(list, macros_list);
+		listarr
 	end
 end

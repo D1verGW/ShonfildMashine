@@ -1,5 +1,5 @@
 function text = filereader(filepath)
-	% С„СѓРЅРєС†РёСЏ С‡С‚РµРЅРёСЏ С„Р°Р№Р»Р° РїРѕ РµРіРѕ Р°РґСЂРµСЃСѓ
+	% функция чтения файла по его адресу
     filetext = fileread(char(filepath));
     expr = '\n';
     text = regexp(filetext,expr,'split');

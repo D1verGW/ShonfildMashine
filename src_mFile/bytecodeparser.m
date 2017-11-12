@@ -1,5 +1,5 @@
 function command = bytecodeparser (command)
-	% РїР°СЂСЃРµСЂ РєРѕРјР°РЅРґС‹ РјР°С€РёРЅРµ РІ РјР°С€РёРЅРЅС‹Р№ РєРѕРґ
+	% парсер команды машине в машинный код
     switch command
         case 'INC'
             command = '0';
