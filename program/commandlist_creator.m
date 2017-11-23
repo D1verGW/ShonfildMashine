@@ -1,4 +1,11 @@
 function [out, macrosList] = commandlist_creator (in)
+% Функция, создающая байт-код машины Шёнфилда
+% Входные данные:
+%	код программы машины Шёнфилда в виде cell-table
+% Выходные данные:
+%	байт-код машины шенфилда, шириной в 3 столбца, в виде double-array
+%	лист макросов, использующихся в машине, в виде double-array
+
 % очистим память от мусора
 clearvars -except in;
 % ------------------------------------------------------------------------
@@ -23,7 +30,7 @@ recGlobalBuilder; % запись данных в память осуществляется в этой ф-и
 % ------------------------------------------------------------------------
 
 % составим нормальный байткод в 3 столбца
-out = [zeros(size(global_list,1)),zeros(size(global_list,2))];
+out = [zeros(size(global_list,1),(size(global_list,2)))];
 for i=1:size(global_list,1)
 	for q=1:size(global_list,2)
 		charval = cell2mat(global_list(i,q));
@@ -78,14 +85,15 @@ end
 				local_list = local_list(2 : end);
 			otherwise
 				% составляем путь к макросу в виде строки
-				path = ['../macros/' , buffer{1} , '.macros'];
+				path = ['./macros/' , buffer{1} , '.macros'];
 				% проверяем, есть ли по этому пути файл с таким
 				% названием
 				ext = exist(path, 'file');
 				% если файл с названием макроса есть:
 				if (ext ~= 0)
 					% создаем cell массив из содержимого файла макроса
-					newlist = filereader(path);
+					arguments = {buffer{2:end}};
+					newlist = filereader(path, arguments);
 					% вырезаем название макроса из очереди
 					local_list = local_list(2 : end);
 					if (size(newlist,2) == 1)

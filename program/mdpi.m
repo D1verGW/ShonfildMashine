@@ -1,5 +1,13 @@
-% mdpi = macros_dec_param_increase
 function out_bytecode = mdpi (in_bytecode, macros_list)
+% Функция, преобразующая адресацию декрементов байт-кода машины Шёнфилда
+% в соответствие с их реальной адресацией
+% Входные данные:
+%	байт-код машины Шёнфилда в виде double-array
+%	байт-код списка макросов в виде double-array
+% Выходные данные:
+%	байт-код машины Шёнфилда в виде double-array
+
+% mdpi = macros_dec_param_increase
 out_bytecode = in_bytecode;
 % условие выхода из цикла
 param = 0;

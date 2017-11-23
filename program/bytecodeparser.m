@@ -1,5 +1,9 @@
 function command = bytecodeparser (command)
-	% парсер команды машине в машинный код
+% Функция, преобразующая команду в байт-код
+% Входные данные:
+%	команда в виде char-array
+% Выходные данные:
+%	байт-код команды в виде double-var
     switch command
         case 'INC'
             command = '0';

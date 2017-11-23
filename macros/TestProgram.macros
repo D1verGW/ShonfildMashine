@@ -1,5 +1,6 @@
-inc 1
+[x2,y4,z1]
+inc x2
 mac1
-dec 1,3
+dec y4,z1
 mac1
-dec 1,3
+dec x2,3

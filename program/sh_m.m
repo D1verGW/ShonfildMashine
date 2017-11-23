@@ -22,7 +22,6 @@ set(input,'max',2);
 set(out,'data',zeros(1,100));
 out.ColumnEditable = true;
 
-% command memory box
 	function start_function (~,~)
 		clearvars -except input;
 		cmb = get(input, 'String');
