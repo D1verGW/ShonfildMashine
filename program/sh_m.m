@@ -19,6 +19,7 @@ out = uitable(...
 
 % многострочный текст в input
 set(input,'max',2);
+
 % начальные данные на ленте (инициализация)
 set(out,'data',zeros(1,100));
 
@@ -28,5 +29,7 @@ set(out,'data',zeros(1,100));
 		[list, macros_list] = commandlist_creator(cellstr(cmb));
 		listarr = mdpi(list, macros_list);
 		listarr
+		jEditbox = findjobj(input);
+		get(jEditbox,'CaretPosition')
 	end
 end
