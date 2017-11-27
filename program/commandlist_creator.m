@@ -70,7 +70,7 @@ end
 % ------------------------------------------------------------------------
 	function recGlobalBuilder
 		% достаем (парсим) команду с вершины очереди команд
-		buffer = parser(char(local_list{1}));
+		buffer = upper(parser(char(local_list{1})));
 		switch buffer{1}
 			case {'INC' , 'DEC'}
 				buffer{1} = bytecodeparser(buffer{1});
@@ -111,7 +111,8 @@ end
 					% если такого файла нет, выбрасываем ошибку
 					% TODO: проверить, выбрасывает ли из программы
 					% после такого рода ошибки
-					error('uncnown command');
+					Err = ['File ', path, ' not found!'];
+					error(Err);
 				end
 		end
 		if (isempty(local_list))

@@ -1,6 +1,6 @@
 [x2,y4,z1]
 inc x2
-mac1
+mac1 x2
 dec y4,z1
-mac1
+mac1 y4,z1,x2
 dec x2,3

@@ -14,13 +14,13 @@ start = uicontrol(...
 	'Callback',@start_function);
 out = uitable(...
 	'RowName',[],...
-	'position',[330,510,650,60]);
+	'position',[330,510,650,60],...
+	'ColumnEditable',true);
 
 % многострочный текст в input
 set(input,'max',2);
 % начальные данные на ленте (инициализация)
 set(out,'data',zeros(1,100));
-out.ColumnEditable = true;
 
 	function start_function (~,~)
 		clearvars -except input;
