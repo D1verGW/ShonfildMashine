@@ -1,5 +1,5 @@
 function sh_m
-global input
+global input macrosBox
 form = figure(...
 	'units','pixels',...
 	'position',[50,50,1000,600],...
@@ -16,7 +16,10 @@ out = uitable(...
 	'RowName',[],...
 	'position',[330,510,650,60],...
 	'ColumnEditable',true);
-
+macrosBox = uicontrol('Style','Listbox',...
+	'String',{'Red';'Green';'Blue'},...
+ 	'Position',[830,60,150,440],...
+	'Callback',@paste_macros);
 % многострочный текст в input
 set(input,'max',2);
 set(input,'FontSize',30);
@@ -25,7 +28,7 @@ set(input,'HorizontalAlignment', 'left');
 set(out,'data',zeros(1,100));
 
 	function start_function (~,~)
-		clearvars -except input;
+		clearvars -except input macrosBox;
 		cmb = get(input, 'String');
 		[list, macros_list] = commandlist_creator(cellstr(cmb));
 		listarr = mdpi(list, macros_list);
@@ -39,12 +42,14 @@ set(out,'data',zeros(1,100));
 	% клику на элемент поля
 	function paste_macros (~,~)
 		jEditbox = findjobj(input);
-		caretPos = get(jEditbox,'CaretPosition');
 		jEditbox = handle(jEditbox.getViewport.getView, 'CallbackProperties');
+		caretPos = get(jEditbox,'CaretPosition');
 		text = char(jEditbox.getText());
-		macrosName = ['\n',macrosName,'\n']; 
-		text = [text(1:caretPos), macrosName, text(caretPos:end)];
+		strings = get(macrosBox,'string');
+		value = get(macrosBox,'value');
+		macrosName = strings(value);
+		text = [text(1:caretPos) cell2mat(macrosName) text(caretPos:end)];
 		% вставить текст в определенное место программы - уже не проблема
-		jEditbox.setText(text);
+		% jEditbox.setText(strings(1:caretPos) macrosName strings(caretPos:end));
 	end
 end
