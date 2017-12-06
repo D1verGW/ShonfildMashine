@@ -1,5 +1,5 @@
 function sh_m
-global input macrosBox
+global input
 form = figure(...
 	'units','pixels',...
 	'position',[50,50,1000,600],...
@@ -20,36 +20,48 @@ macrosBox = uicontrol('Style','Listbox',...
 	'String',{'Red';'Green';'Blue'},...
  	'Position',[830,60,150,440],...
 	'Callback',@paste_macros);
-% многострочный текст в input
+% РјРЅРѕРіРѕСЃС‚СЂРѕС‡РЅС‹Р№ С‚РµРєСЃС‚ РІ input
 set(input,'max',2);
 set(input,'FontSize',30);
 set(input,'HorizontalAlignment', 'left');
-% начальные данные на ленте (инициализация)
+% РЅР°С‡Р°Р»СЊРЅС‹Рµ РґР°РЅРЅС‹Рµ РЅР° Р»РµРЅС‚Рµ (РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ)
 set(out,'data',zeros(1,100));
+jEditbox = findjobj(input);
+jEditbox = handle(jEditbox.getViewport.getView, 'CallbackProperties');
+set(jEditbox, 'FocusLostCallback', @getDataOnFocusLost);
+set(jEditbox, 'FocusGainedCallback', @setText);
+caretPos = 0;
+inputText = '';
 
-	function start_function (~,~)
+    function start_function (~,~)
 		clearvars -except input macrosBox;
 		cmb = get(input, 'String');
 		[list, macros_list] = commandlist_creator(cellstr(cmb));
 		listarr = mdpi(list, macros_list);
-		listarr
 	end
 	
-	% функция определения позиции каретки
-	% TODO: написать поле с макросами, привязать
-	% функцию к каждому элементу этого поля, дабы ф-я
-	% принимала на вход имя элемента(макроса), выполнять по
-	% клику на элемент поля
 	function paste_macros (~,~)
-		jEditbox = findjobj(input);
-		jEditbox = handle(jEditbox.getViewport.getView, 'CallbackProperties');
-		caretPos = get(jEditbox,'CaretPosition');
-		text = char(jEditbox.getText());
 		strings = get(macrosBox,'string');
 		value = get(macrosBox,'value');
 		macrosName = strings(value);
-		text = [text(1:caretPos) cell2mat(macrosName) text(caretPos:end)];
-		% вставить текст в определенное место программы - уже не проблема
-		% jEditbox.setText(strings(1:caretPos) macrosName strings(caretPos:end));
-	end
+		inputText = [inputText(1:caretPos) char(13) cell2mat(macrosName) char(13) inputText(caretPos + 1:end)];
+        setText;
+    end
+
+    function getCaretPosition (~,~)
+        caretPos = get(jEditbox,'CaretPosition');
+    end
+
+    function getText (~,~)
+        inputText = get(jEditbox,'Text');
+    end
+
+    function setText (~,~)
+        set(jEditbox,'Text', inputText);
+    end
+
+    function getDataOnFocusLost (~,~)
+        getText;
+        getCaretPosition;
+    end
 end
