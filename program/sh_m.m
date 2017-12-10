@@ -20,11 +20,11 @@ macrosBox = uicontrol('Style','Listbox',...
 	'String',{'Red';'Green';'Blue'},...
  	'Position',[830,60,150,440],...
 	'Callback',@paste_macros);
-% многострочный текст в input
+
 set(input,'max',2);
 set(input,'FontSize',30);
 set(input,'HorizontalAlignment', 'left');
-% начальные данные на ленте (инициализация)
+
 set(out,'data',zeros(1,100));
 jEditbox = findjobj(input);
 jEditbox = handle(jEditbox.getViewport.getView, 'CallbackProperties');
@@ -33,18 +33,24 @@ set(jEditbox, 'FocusGainedCallback', @setText);
 caretPos = 0;
 inputText = '';
 
+files = dir('../macros');
+for i=3:(size(files,1))
+	filenames(i - 2) = files(i).name;
+end
+
     function start_function (~,~)
 		clearvars -except input macrosBox;
 		cmb = get(input, 'String');
 		[list, macros_list] = commandlist_creator(cellstr(cmb));
-		listarr = mdpi(list, macros_list);
+		listarr = mdpi(list, macros_list)
 	end
 	
 	function paste_macros (~,~)
 		strings = get(macrosBox,'string');
 		value = get(macrosBox,'value');
 		macrosName = strings(value);
-		inputText = [inputText(1:caretPos) char(13) cell2mat(macrosName) char(13) inputText(caretPos + 1:end)];
+		inputText = [inputText(1:caretPos) char(13) cell2mat(macrosName) inputText(caretPos + 1:end)];
+		caretPos = caretPos + length(cell2mat(macrosName)) + 1;
         setText;
     end
 
