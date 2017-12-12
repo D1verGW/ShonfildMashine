@@ -8,8 +8,13 @@ function text = filereader(filepath, arguments)
 filetext = fileread(char(filepath));
 expr = '\n';
 if (exist('arguments', 'var'))
-	text = argapply(regexp(filetext,expr,'split'), arguments);
+	if (isempty(arguments))
+		text = regexp(filetext,expr,'split');
+	else
+		text = argapply(regexp(filetext,expr,'split'), arguments, filepath);
+	end
 else
 	text = regexp(filetext,expr,'split');
 end
+
 end

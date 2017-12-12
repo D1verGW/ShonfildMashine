@@ -17,12 +17,12 @@ out = uitable(...
 	'position',[330,510,650,60],...
 	'ColumnEditable',true);
 macrosBox = uicontrol('Style','Listbox',...
-	'String',{'Red';'Green';'Blue'},...
+	'String',{},...
  	'Position',[830,60,150,440],...
 	'Callback',@paste_macros);
 
 set(input,'max',2);
-set(input,'FontSize',30);
+set(input,'FontSize',15);
 set(input,'HorizontalAlignment', 'left');
 
 set(out,'data',zeros(1,100));
@@ -34,14 +34,29 @@ caretPos = 0;
 inputText = '';
 
 files = dir('../macros');
+filenames = {};
 for i=3:(size(files,1))
-	filenames(i - 2) = files(i).name;
+	buffer = parser(files(i).name);
+	filenames(i - 2) = buffer(1);
 end
+set(macrosBox, 'String', filenames);
 
     function start_function (~,~)
-		clearvars -except input macrosBox;
-		cmb = get(input, 'String');
-		[list, macros_list] = commandlist_creator(cellstr(cmb));
+		text = inputText;
+		stringsForParse = {};
+		j = 0;
+		q = 1;
+		for i=1:length(text)
+			if (text(i) == char(13))
+				j = j + 1;
+				stringsForParse(j, 1) = {text(q:i - 1)};
+				q = i + 1;
+			end
+			if (i == length(text))
+				stringsForParse(j + 1, 1) = {text(q:i)};
+			end
+		end
+		[list, macros_list] = commandlist_creator(stringsForParse);
 		listarr = mdpi(list, macros_list)
 	end
 	
@@ -49,8 +64,17 @@ end
 		strings = get(macrosBox,'string');
 		value = get(macrosBox,'value');
 		macrosName = strings(value);
-		inputText = [inputText(1:caretPos) char(13) cell2mat(macrosName) inputText(caretPos + 1:end)];
+		
+		if(caretPos == 0)
+			enterSymbol = '';
+		else
+			enterSymbol = char(13);
+		end
+		inputText = [inputText(1:caretPos) enterSymbol cell2mat(macrosName) inputText(caretPos + 1:end)];
 		caretPos = caretPos + length(cell2mat(macrosName)) + 1;
+		if(caretPos > length(inputText))
+			caretPos = length(inputText);
+		end
         setText;
     end
 

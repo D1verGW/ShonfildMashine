@@ -70,7 +70,7 @@ end
 % ------------------------------------------------------------------------
 	function recGlobalBuilder
 		% достаем (парсим) команду с вершины очереди команд
-		buffer = upper(parser(char(local_list{1})));
+		buffer = upper(parser(char(local_list{1})))
 		switch buffer{1}
 			case {'INC' , 'DEC'}
 				buffer{1} = bytecodeparser(buffer{1});
@@ -85,7 +85,7 @@ end
 				local_list = local_list(2 : end);
 			otherwise
 				% составляем путь к макросу в виде строки
-				path = ['./macros/' , buffer{1} , '.macros'];
+				path = ['../macros/' , buffer{1} , '.macros'];
 				% проверяем, есть ли по этому пути файл с таким
 				% названием
 				ext = exist(path, 'file');
@@ -93,6 +93,8 @@ end
 				if (ext ~= 0)
 					% создаем cell массив из содержимого файла макроса
 					arguments = {buffer{2:end}};
+					% если макрос - подразумеваются аргументы,
+					% если аргументов нет - ошибка
 					newlist = filereader(path, arguments);
 					% вырезаем название макроса из очереди
 					local_list = local_list(2 : end);
@@ -111,7 +113,8 @@ end
 					% если такого файла нет, выбрасываем ошибку
 					% TODO: проверить, выбрасывает ли из программы
 					% после такого рода ошибки
-					Err = ['File ', path, ' not found!'];
+					spacer = [char(13) '--------------------------' char(13)];
+					Err = [spacer 'File ' path ' not found!' spacer];
 					error(Err);
 				end
 		end

@@ -1,4 +1,4 @@
-function out = argapply(macros, arguments)
+function out = argapply(macros, arguments, filepath)
 % ‘ункци€, примен€юща€ аргументы макроса к его содержимому
 % ¬ходные данные: 
 %	содержимое макроса в виде cell-table
@@ -31,6 +31,23 @@ if (length(argWord) == length(arguments))
 			end
 		end
 	end
+else
+	buffer = parser(filepath);
+	macrosName = cell2mat(buffer(length(buffer) - 1));
+	spacer = [char(13) '--------------------------' char(13)];
+	argWords = '';
+	for i=1:length(argWord)
+		argWords = [argWords cell2mat(argWord(i)) ','];
+	end
+	if (isempty(arguments))
+		args = '';
+	else
+		args = char(arguments(1:end));
+	end
+	Err = [spacer 'Arguments in macros ' macrosName ' is wrong!' char(13)...
+				  'Macros need arguments: ' argWords(1:end - 1) char(13)...
+				  'Macros have arguments: ' args spacer];
+	error(Err);
 end
 
 end
