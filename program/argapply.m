@@ -1,10 +1,10 @@
 function out = argapply(macros, arguments, filepath)
-% Функция, применяющая аргументы макроса к его содержимому
-% Входные данные: 
-%	содержимое макроса в виде cell-table
-%	аргументы макроса в виде cell-table
-% Выходные данные:
-%	содержимое макроса в виде cell-table
+% Р¤СѓРЅРєС†РёСЏ, РїСЂРёРјРµРЅСЏСЋС‰Р°СЏ Р°СЂРіСѓРјРµРЅС‚С‹ РјР°РєСЂРѕСЃР° Рє РµРіРѕ СЃРѕРґРµСЂР¶РёРјРѕРјСѓ
+% Р’С…РѕРґРЅС‹Рµ РґР°РЅРЅС‹Рµ: 
+%	СЃРѕРґРµСЂР¶РёРјРѕРµ РјР°РєСЂРѕСЃР° РІ РІРёРґРµ cell-table
+%	Р°СЂРіСѓРјРµРЅС‚С‹ РјР°РєСЂРѕСЃР° РІ РІРёРґРµ cell-table
+% Р’С‹С…РѕРґРЅС‹Рµ РґР°РЅРЅС‹Рµ:
+%	СЃРѕРґРµСЂР¶РёРјРѕРµ РјР°РєСЂРѕСЃР° РІ РІРёРґРµ cell-table
 
 argWord = parser(macros{1});
 macros = {macros{2:end}};
@@ -44,9 +44,9 @@ else
 	else
 		args = char(arguments(1:end));
 	end
-	Err = [spacer 'Arguments in macros ' macrosName ' is wrong!' char(13)...
-				  'Macros need arguments: ' argWords(1:end - 1) char(13)...
-				  'Macros have arguments: ' args spacer];
+	Err = [spacer 'Wrong params in macros: ' macrosName char(13)...
+				  'Macros needs arguments: ' argWords(1:end - 1) char(13)...
+				  'Macros has arguments: ' args spacer];
 	error(Err);
 end
 
