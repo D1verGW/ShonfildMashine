@@ -18,12 +18,20 @@ out = uitable(...
 	'ColumnEditable',true);
 macrosBox = uicontrol('Style','Listbox',...
 	'String',{},...
- 	'Position',[830,60,150,440],...
+ 	'Position',[830,160,150,340],...
 	'Callback',@paste_macros);
+macrosInfo = uicontrol(...
+	'style','edit',...
+	'position',[830,60,150,90]);
+set(macrosInfo,'max',2);
+set(macrosInfo,'FontSize',8);
+set(macrosInfo,'HorizontalAlignment', 'left');
+set(macrosInfo,'Enable', 'inactive');
 
 set(input,'max',2);
 set(input,'FontSize',15);
 set(input,'HorizontalAlignment', 'left');
+
 
 set(out,'data',zeros(1,100));
 jEditbox = findjobj(input);
@@ -70,16 +78,24 @@ set(macrosBox, 'String', filenames);
 		else
 			enterSymbol = char(13);
 		end
-		inputText = [inputText(1:caretPos) enterSymbol cell2mat(macrosName) inputText(caretPos + 1:end)];
-		caretPos = caretPos + length(cell2mat(macrosName)) + 1;
+		inputText = [inputText(1:caretPos) cell2mat(macrosName) inputText(caretPos + 1:end)];
+		
+        setText;
+        uicontrol(input);
+        caretPos = caretPos + length(cell2mat(macrosName)) + 1;
 		if(caretPos > length(inputText))
 			caretPos = length(inputText);
-		end
-        setText;
+        end
+        setCaretPosition;
+        set(macrosInfo, 'String', getMacrosComment(macrosName));
     end
 
     function getCaretPosition (~,~)
         caretPos = get(jEditbox,'CaretPosition');
+    end
+
+    function setCaretPosition (~,~)
+        set(jEditbox, 'CaretPosition', caretPos);
     end
 
     function getText (~,~)
