@@ -85,7 +85,7 @@ end
 				local_list = local_list(2 : end);
 			otherwise
 				% составляем путь к макросу в виде строки
-				path = ['../macros/' , buffer{1} , '.macros'];
+				path = ['./macros/' , buffer{1} , '.macros'];
 				% проверяем, есть ли по этому пути файл с таким
 				% названием
 				ext = exist(path, 'file');

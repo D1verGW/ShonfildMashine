@@ -1,4 +1,6 @@
-function sh_m
+function app
+addpath('./macros');
+addpath('./program');
 global input
 form = figure(...
 	'units','pixels',...
@@ -41,7 +43,7 @@ set(jEditbox, 'FocusGainedCallback', @setText);
 caretPos = 0;
 inputText = '';
 
-files = dir('../macros');
+files = dir('./macros');
 filenames = {};
 for i=3:(size(files,1))
 	buffer = parser(files(i).name);
