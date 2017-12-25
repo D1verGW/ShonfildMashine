@@ -4,7 +4,7 @@ function comments = getMacrosComment(macrosname)
 %	имя макроса в виде char-array
 % Выходные данные:
 %	комментарии макроса в виде cell-table
-filepath = ['../macros/' macrosname{1} '.macros'];
+filepath = ['./macros/' macrosname{1} '.macros'];
 filetext = fileread(char(filepath));
 expr = '\n';
 text = regexp(filetext,expr,'split');
