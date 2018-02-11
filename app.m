@@ -3,11 +3,15 @@ function app
 
 addpath('./macros');
 addpath('./program');
+addpath('./data');
 
 global input
-
+%% --------------------------
 % Инициализируем окно приложения и элементы управления
 form = figure(...
+	'Name','Shonfild Mashine IDE',...
+	'NumberTitle','off',...
+	'Resize','off',...
 	'units','pixels',...
 	'position',[50,50,1000,600],...
 	'menubar','none');
@@ -27,6 +31,38 @@ out = uitable(...
 	'position',[330,510,650,60],...
 	'ColumnEditable',true,...
 	'data',zeros(1,100));
+bytecode = uitable(...
+	'RowName',[],...
+	'position',[330,100,300,400],...
+	'ColumnEditable',false,...
+	'data',zeros(30,3),...
+	'ColumnWidth',{94 94 93});
+runMashine = uicontrol(...
+	'style', 'pushbutton',...
+	'position', [330,60,50,30],...
+	'string', 'Run',...
+	'Callback',@controller);
+stopMashine = uicontrol(...
+	'style', 'pushbutton',...
+	'position', [390,60,50,30],...
+	'string', 'Stop',...
+	'Callback',@controller);
+pauseMashine = uicontrol(...
+	'style', 'pushbutton',...
+	'position', [450,60,50,30],...
+	'string', 'Pause',...
+	'Callback',@controller);
+fasterMashine = uicontrol(...
+	'style', 'pushbutton',...
+	'position', [510,60,55,30],...
+	'string', 'Faster',...
+	'Callback',@controller);
+slowerMashine = uicontrol(...
+	'style', 'pushbutton',...
+	'position', [575,60,55,30],...
+	'string', 'Slower',...
+	'Callback',@controller);
+
 macrosBox = uicontrol('Style','Listbox',...
 	'String',{},...
  	'Position',[830,160,150,340],...
@@ -39,6 +75,7 @@ macrosInfo = uicontrol(...
 	'HorizontalAlignment', 'left',...
 	'Enable', 'inactive');
 
+%% --------------------------
 % Инициализируем запись свойств поля управления input
 % в обьект jObject
 jEditbox = findjobj(input);
@@ -49,22 +86,21 @@ set(jEditbox, 'FocusLostCallback', @getDataOnFocusLost);
 set(jEditbox, 'FocusGainedCallback', @setText);
 
 % Инициализируем начальные данные для позиции каретки
-% и текста в глобальном для приложения обьекте inputText
+% и текста в глобальном для приложения обьекте
 caretPos = 0;
 inputText = '';
 
+% Считаем и запишем макросы из директории macros
+getMacrosBox;
 
-
-
-%--------------------------
+%% --------------------------
 % Обьявление внутренних функций для работы с
 % элементами управления приложением
-%--------------------------
-
 
     function start_function (~,~)
 		[list, macros_list] = commandlist_creator(stringify(inputText));
-		listarr = mdpi(list, macros_list)
+		listarr = mdpi(list, macros_list);
+		setProgramData(listarr);
 	end
 	
 	function paste_macros (~,~)
@@ -125,4 +161,37 @@ inputText = '';
 		end
 		set(macrosBox, 'String', filenames);
 	end
+
+	function setProgramData (programData)
+		set(bytecode, 'data', zeros(size(programData, 1), 3));
+		set(bytecode, 'data', programData);
+	end
+
+%% --------------------------
+% Контроллер, отвечает за выполнение
+% программы машины Шёнфилда
+% TODO: вынести в отдельный файл, когда разберусь
+% в механизме работы глобальных переменных
+	function controller_batch (action)
+		switch action
+			case 'run'
+				string = action
+			case 'stop'
+				string = action
+			case 'pause'
+				string = action
+			case 'faster'
+				string = action
+			case 'slower'
+				string = action
+		end
+	end
+
+	function controller (hObject, eventdata)
+		action = hObject.get('string');
+		job = batch('controller_batch', 0, {'action'});
+	end
+	
+
+
 end

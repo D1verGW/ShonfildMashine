@@ -70,7 +70,7 @@ end
 % ------------------------------------------------------------------------
 	function recGlobalBuilder
 		% достаем (парсим) команду с вершины очереди команд
-		buffer = upper(parser(char(local_list{1})))
+		buffer = upper(parser(char(local_list{1})));
 		switch buffer{1}
 			case {'INC' , 'DEC'}
 				buffer{1} = bytecodeparser(buffer{1});
